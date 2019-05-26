@@ -1,0 +1,15 @@
+@var list = ['h', 'e', 'l', 'l', 'o'];
+@var title = 'Hello World';
+<h1>#title#</h1>
+<h2>#name!#</h2>
+<h3>#username!'没有结果'#</h3>
+<ul>
+@for(item in list) {
+	@if(itemLP.last) {
+	<li>#itemLP.index# :\# #itemLP.size# #item#</li>
+	<li>end</li>
+	@} else {
+	<li>#itemLP.index# :\# #itemLP.size# #item#</li>
+	@}
+@}
+</ul>
