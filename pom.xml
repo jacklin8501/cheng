@@ -1,0 +1,147 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.cheng</groupId>
+	<artifactId>platform</artifactId>
+	<version>1.0.1</version>
+	<packaging>pom</packaging>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<jdk.version>1.8</jdk.version>
+
+		<maven.compiler.plugin.version>3.8.0</maven.compiler.plugin.version>
+		<maven.surefire.plugin.version>2.22.1</maven.surefire.plugin.version>
+
+		<spring.io.platform.version>Cairo-SR7</spring.io.platform.version>
+		<servlet.api.version>4.0.1</servlet.api.version>
+		<fastjson.version>1.2.57</fastjson.version>
+		<beetl.framework.starter.version>1.1.81.RELEASE</beetl.framework.starter.version>
+
+		<core.version>1.0.1</core.version>
+		<security.core.version>1.0.1</security.core.version>
+		<security.single.version>1.0.1</security.single.version>
+		<jpa.version>1.0.1</jpa.version>
+		<cheng.beetl.starter.version>1.0.1</cheng.beetl.starter.version>
+		<cheng.admin.starter.version>1.0.1</cheng.admin.starter.version>
+		<cheng.beetl.security.version>1.0.1</cheng.beetl.security.version>
+	</properties>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>io.spring.platform</groupId>
+				<artifactId>platform-bom</artifactId>
+				<version>Cairo-SR7</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>javax.servlet-api</artifactId>
+				<version>${servlet.api.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.ibeetl</groupId>
+				<artifactId>beetl-framework-starter</artifactId>
+				<version>${beetl.framework.starter.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.cheng</groupId>
+				<artifactId>cheng-core</artifactId>
+				<version>${core.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.cheng</groupId>
+				<artifactId>cheng-security-core</artifactId>
+				<version>${security.core.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.cheng</groupId>
+				<artifactId>cheng-security-single</artifactId>
+				<version>${security.single.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.cheng</groupId>
+				<artifactId>cheng-jpa</artifactId>
+				<version>${jpa.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.cheng</groupId>
+				<artifactId>cheng-beetl-starter</artifactId>
+				<version>${cheng.beetl.starter.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.cheng</groupId>
+				<artifactId>cheng-admin-starter</artifactId>
+				<version>${cheng.admin.starter.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.cheng</groupId>
+				<artifactId>cheng-beetl-security-starter</artifactId>
+				<version>${cheng.beetl.security.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven.compiler.plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven.surefire.plugin.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<modules>
+		<module>cheng-security-core</module>
+		<module>cheng-core</module>
+		<module>cheng-jpa</module>
+		<module>cheng-beetl-demo</module>
+		<module>cheng-beetl-spring-demo</module>
+		<module>cheng-security-singlepage-demo</module>
+		<module>cheng-beetl-starter</module>
+		
+		<module>cheng-beetl-security-starter</module>
+	</modules>
+</project>
