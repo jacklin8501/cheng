@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+</head>
+<body>
+	<div>
+		<fieldset>
+			<legend>Sign In</legend>
+			<em>${error}</em>
+			<form id="sign_in_form" action="/backend/security-auth" method="post">
+				<div>
+					<label for="username">User Name:</label>
+					<input id="username" name="username" value="${username}" />
+				</div>
+				<div>
+					<label for="password">Password:</label>
+					<input id="password" name="password" type="password" />
+				</div>
+				<button id="sign_in_btn">Sign In</button>
+			</form>
+		</fieldset>
+	</div>
+	<script src="./jquery-3.4.1.js"></script>
+	<script type="text/javascript">
+	$.ajaxSetup({
+		error : function(xhr, status, error) {
+			console.info(xhr.responseText);
+		}
+	});
+	var SignInModel = (function(){
+		return {
+			signIn : function() {
+				var params = {
+						username : $('#username').val(),
+						password : $('#password').val()
+				};
+				$.post('/security-auth', params, function(d) {
+					window.location.href = '/index';
+				});
+			}
+		}
+	})();
+	</script>
+</body>
+</html>
