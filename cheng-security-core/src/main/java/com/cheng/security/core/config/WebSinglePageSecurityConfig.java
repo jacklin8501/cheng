@@ -6,6 +6,7 @@ package com.cheng.security.core.config;
 import static com.cheng.core.utils.EmptyUtils.isNotEmpty;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,9 +27,11 @@ import com.cheng.security.core.config.handler.AuthenticationFailureHandlerImpl;
 import com.cheng.security.core.config.handler.AuthenticationSuccessHandlerImpl;
 import com.cheng.security.core.config.handler.LogoutSuccessHandlerImpl;
 import com.cheng.security.core.config.manager.DefaultAccessDecisionManager;
-import com.cheng.security.core.metadatasource.DefaultFilterInvocationSecurityMetadataSource;
-import com.cheng.security.core.metadatasource.DefaultFilterSecurityInterceptor;
+import com.cheng.security.core.filterinterceptor.DefaultFilterSecurityInterceptor;
+import com.cheng.security.core.manager.AccessStrategyManager;
 import com.cheng.security.core.metadatasource.CustomerSecurityMetadataSourceProvider;
+import com.cheng.security.core.metadatasource.impl.DefaultFilterInvocationSecurityMetadataSourceImpl;
+import com.cheng.security.core.metadatasource.impl.DefaultSecurityMetadataSourceProviderImpl;
 
 /**
  * @author jack.lin
@@ -37,10 +40,10 @@ import com.cheng.security.core.metadatasource.CustomerSecurityMetadataSourceProv
 public class WebSinglePageSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private DefaultAccessDecisionManager defaultAccessDecisionManager;
+	private AccessStrategyManager accessStrategyManager;
 	
-	@Autowired(required=false)
-	private CustomerSecurityMetadataSourceProvider customerSecurityMetadataSourceProvider;
+	@Autowired
+	private DefaultAccessDecisionManager defaultAccessDecisionManagerImpl;
 	
 	@Autowired
 	private UserDetailsService userDetailsService;
@@ -58,20 +61,27 @@ public class WebSinglePageSecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 	
+	@ConditionalOnMissingBean(CustomerSecurityMetadataSourceProvider.class)
+	@Bean
+	public CustomerSecurityMetadataSourceProvider customerSecurityMetadataSourceProvider() {
+		DefaultSecurityMetadataSourceProviderImpl impl = new DefaultSecurityMetadataSourceProviderImpl();
+		impl.setAccessStrategyManager(accessStrategyManager);
+		impl.setCheng(cheng);
+		return impl;
+	}
+	
 	@Bean
 	public FilterInvocationSecurityMetadataSource filterInvocationSecurityMetadataSource() {
-		DefaultFilterInvocationSecurityMetadataSource fss = new DefaultFilterInvocationSecurityMetadataSource();
-		if (isNotEmpty(customerSecurityMetadataSourceProvider)) {
-			fss.setSecurityMetadataSourceProvider(customerSecurityMetadataSourceProvider);
-		}
+		DefaultFilterInvocationSecurityMetadataSourceImpl fss = new DefaultFilterInvocationSecurityMetadataSourceImpl();
+		fss.setSecurityMetadataSourceProvider(customerSecurityMetadataSourceProvider());
 		return fss;
 	}
 	
 	@Bean
 	public DefaultFilterSecurityInterceptor filterSecurityInterceptor() throws Exception {
 		DefaultFilterSecurityInterceptor fs = new DefaultFilterSecurityInterceptor();
-		if (isNotEmpty(defaultAccessDecisionManager)) {
-			fs.setAccessDecisionManager(defaultAccessDecisionManager);
+		if (isNotEmpty(defaultAccessDecisionManagerImpl)) {
+			fs.setAccessDecisionManager(defaultAccessDecisionManagerImpl);
 			fs.setSecurityMetadataSource(filterInvocationSecurityMetadataSource());
 		}
 		return fs;
@@ -101,9 +111,11 @@ public class WebSinglePageSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http
 			.authorizeRequests()
-			//.filterSecurityInterceptorOncePerRequest(true)
-			//.accessDecisionManager(defaultAccessDecisionManager)
-			//.antMatchers(cheng.getSecurity().getForm().getLoginPage()).permitAll()
+			.filterSecurityInterceptorOncePerRequest(true)
+			.accessDecisionManager(defaultAccessDecisionManagerImpl)
+			//.antMatchers(cheng.getSecurity().getForm().getLoginPage()
+					//, "/**/*.js", "/**/*.html", "/**/*.css"
+					//, "/**/*.png", "/**/*.jpg", "/**/*.ico").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.rememberMe().disable()
@@ -130,9 +142,7 @@ public class WebSinglePageSecurityConfig extends WebSecurityConfigurerAdapter {
 			.permitAll()
 			;
 		
-		if (isNotEmpty(defaultAccessDecisionManager) && isNotEmpty(customerSecurityMetadataSourceProvider)) {
-			http.addFilterBefore(filterSecurityInterceptor(), FilterSecurityInterceptor.class);
-		}
+		http.addFilterBefore(filterSecurityInterceptor(), FilterSecurityInterceptor.class);
 	}
 
 	@Override

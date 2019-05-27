@@ -9,7 +9,7 @@
 		<fieldset>
 			<legend>Sign In</legend>
 			<em>${error}</em>
-			<form id="sign_in_form" action="/backend/security-auth" method="post">
+			<form id="sign_in_form" action="${request.contextPath}/security-auth" method="post">
 				<div>
 					<label for="username">User Name:</label>
 					<input id="username" name="username" value="${username}" />
@@ -18,11 +18,12 @@
 					<label for="password">Password:</label>
 					<input id="password" name="password" type="password" />
 				</div>
-				<button id="sign_in_btn">Sign In</button>
+				<button>Sign In</button>
+				<!--  type="button" onclick="SignInModel.signIn()" -->
 			</form>
 		</fieldset>
 	</div>
-	<script src="./jquery-3.4.1.js"></script>
+	<script type="text/javascript" src="${request.contextPath}/jquery-3.4.1.js"></script>
 	<script type="text/javascript">
 	$.ajaxSetup({
 		error : function(xhr, status, error) {
@@ -36,8 +37,8 @@
 						username : $('#username').val(),
 						password : $('#password').val()
 				};
-				$.post('/security-auth', params, function(d) {
-					window.location.href = '/index';
+				$.post('${request.contextPath}/security-auth', params, function(d) {
+					window.location.href = '${request.contextPath}/index';
 				});
 			}
 		}

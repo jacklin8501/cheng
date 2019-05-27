@@ -32,8 +32,8 @@ public class DefaultPermitAllRequestAccessStrategyImpl implements AccessStrategy
 		String logoutProcessingUrl = cheng.getSecurity().getForm().getLogoutProccessUrl();
 		String invalidSessionUrl = cheng.getSecurity().getSession().getInvalidSessionUrl();
 		String expiredUrl = cheng.getSecurity().getSession().getExpiredUrl();
-		String uri = calculateUri(request);
 		
+		String uri = calculateUri(request);
 		AntPathMatcher pathMatcher = getAntPathMatcher();
 		if (pathMatcher.match("/error/**", uri)) {
 			logger.info(":: can access uri {}", uri);

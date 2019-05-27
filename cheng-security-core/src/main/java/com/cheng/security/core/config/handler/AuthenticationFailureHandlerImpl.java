@@ -52,16 +52,17 @@ public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHa
 			
 			try ( PrintWriter writer = response.getWriter(); ) {
 				
-				writer.write(ex.getMessage());
+				writer.write("Login failure!username or password error.");
 			}
 			
 		} else {
-			String redirectUrl = 
+			String redirectUrl =
 					cheng.getSecurity().getForm().getLoginPage() + 
 					"?error=" + 
-					URLEncoder.encode(ex.getMessage(), "UTF-8") +
+					URLEncoder.encode("Login failure!username or password error.", "UTF-8") +
 					"&username=" +
 					URLEncoder.encode(request.getParameter("username"), "UTF-8");
+			logger.info(":: redirect uri = {}", redirectUrl);
 			redirectStrategy.sendRedirect(request, response, redirectUrl);
 		}
 	}

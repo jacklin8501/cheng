@@ -40,9 +40,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	private Set<GrantedAuthority> obtionGrantedAuthority(String username) {
 		Set<GrantedAuthority> set = new HashSet<>();
 		//资源标识
-		set.add(new SimpleGrantedAuthority("GET:INDEX"));
-		//set.add(new SimpleGrantedAuthority("GET:USER"));
-		set.add(new SimpleGrantedAuthority("GET:ME"));
+		set.add(new SimpleGrantedAuthority("GET:/index"));
+		//set.add(new SimpleGrantedAuthority("GET:/user"));
+		set.add(new SimpleGrantedAuthority("GET:/me"));
 		return set;
 	}
 }

@@ -3,6 +3,8 @@
  */
 package com.cheng.security.core.config.manager;
 
+import static com.cheng.core.utils.EmptyUtils.isEmpty;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -20,11 +22,19 @@ public interface DefaultAccessDecisionManager extends AccessDecisionManager {
 	}
 	
 	default boolean isLogin(Authentication authentication) {
-		if (null != authentication) {
-			String principal = authentication.getPrincipal().toString();
-			return !StringUtils.equalsIgnoreCase("anonymousUser", principal);
+		if (isEmpty(authentication)) {
+			return false;
 		}
-		return false;
+		if (isEmpty(authentication.getPrincipal())) {
+			return false;
+		}
+		if (String.class == authentication.getPrincipal().getClass()) {
+			return false;
+		}
+		if (StringUtils.equalsIgnoreCase("AnonymousUser", authentication.getPrincipal().toString())) {
+			return false;
+		}
+		return true;
 	}
 	
 	default String username(Authentication authentication) {

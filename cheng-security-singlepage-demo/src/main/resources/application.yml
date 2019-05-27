@@ -1,7 +1,5 @@
 server:
   port: 80
-  servlet:
-    context-path: /backend
   
 spring:
   session:
@@ -31,11 +29,19 @@ FN:
   lower: com.cheng.beetlsql.function.Lower
 
 cheng:
+#安全配置
   security:
+  #启用默认公开资源，js, html, png, ico等等, 默认开启
+    enabled-default-permit-all: true
+    #表单认证配置
     form:
+    #登录页面
       login-page: /sign-in
+      #登录url
       login-processing-url: /security-auth
+      #登录成功跳转
       index-page: /index
+      #登出url
       logout-proccess-url: /logout
     session:
       max-sessions-prevents-login: false

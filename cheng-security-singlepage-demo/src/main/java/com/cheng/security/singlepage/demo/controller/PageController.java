@@ -17,11 +17,15 @@ import org.beetl.core.Configuration;
 import org.beetl.core.GroupTemplate;
 import org.beetl.core.Template;
 import org.beetl.core.resource.ClasspathResourceLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author jack.lin
@@ -30,45 +34,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class PageController {
 
+	final Logger logger = LoggerFactory.getLogger(getClass());
+	
 	@GetMapping("/sign-in")
-	public void login(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String error = request.getParameter("error");
-		if (isEmpty(error)) {
-			error = "";
-		}
-		String username = request.getParameter("username");
-		if (isEmpty(username)) {
-			username = "";
-		}
-		Resource resource = new ClassPathResource("resources/login.html");
-		BufferedReader reader = new BufferedReader(new InputStreamReader(resource.getInputStream()));
-		String page = "";
-		while (reader.ready()) {
-			page += reader.readLine();
-		}
-		
-		page = page.replaceAll("\\$\\{error\\}", error);
-		page = page.replaceAll("\\$\\{username\\}", username);
-		response.setContentType(MediaType.TEXT_HTML_VALUE);
-		response.setCharacterEncoding("UTF-8");
-		try (PrintWriter writer = response.getWriter()) {
-			writer.write(page);
-		}
+	public String login(@RequestParam(defaultValue="", required=false) String username, @RequestParam(defaultValue="", required=false) String error, Model model) throws IOException {
+		model.addAttribute("username", username);
+		model.addAttribute("error", error);
+		return "login.html";
 	}
 	
 	@GetMapping("/index")
-	public String index(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		/*ClasspathResourceLoader resourceLoader = new ClasspathResourceLoader("/resources");
-		Configuration cfg = Configuration.defaultConfiguration();
-		cfg.add("/beetl.properties");
-		GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
-		Template t = gt.getTemplate("/index.html");
-		String str = t.render();
-		response.setContentType(MediaType.TEXT_HTML_VALUE);
-		response.setCharacterEncoding("UTF-8");
-		try (PrintWriter writer = response.getWriter()) {
-			writer.write(str);
-		}*/
+	public String index() throws IOException {
 		return "index.html";
 	}
 	
