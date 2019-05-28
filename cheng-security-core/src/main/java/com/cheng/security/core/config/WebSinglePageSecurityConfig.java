@@ -66,7 +66,8 @@ public class WebSinglePageSecurityConfig extends WebSecurityConfigurerAdapter {
 	public CustomerSecurityMetadataSourceProvider customerSecurityMetadataSourceProvider() {
 		DefaultSecurityMetadataSourceProviderImpl impl = new DefaultSecurityMetadataSourceProviderImpl();
 		impl.setAccessStrategyManager(accessStrategyManager);
-		impl.setCheng(cheng);
+		impl.setChengProperties(cheng);
+		impl.setSessionRegistry(sessionRegistry());
 		return impl;
 	}
 	

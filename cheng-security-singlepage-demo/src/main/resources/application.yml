@@ -48,6 +48,8 @@ cheng:
       maximum-sessions: 1
       expired-url: /session/expired
       invalid-session-url: /session/invalid
+    permit-all:
+    - /event/**
   web:
     ajax-request-key: "X-Requested-With"
     ajax-request-value: "XMLHttpRequest"

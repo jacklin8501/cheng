@@ -9,6 +9,33 @@
 	@if(urlIf('/user', 'GET')) {
 	<h2>Index</h2>
 	@}
+	
+	<a href="#" onclick="IndexModel.publish()">publish</a>
+	<a href="#" onclick="IndexModel.modify()">modify</a>
+	<a href="#" onclick="IndexModel.me()">me</a>
 	<a href="${request.contextPath}/logout">logout</a>
+	
+	<script type="text/javascript" src="${request.contextPath}/jquery-3.4.1.js"></script>
+	<script type="text/javascript">
+	var IndexModel = (function() {
+		return {
+			publish : function() {
+				$.get('${request.contextPath}/event/test', function(d) {
+					console.info(d);
+				});
+			},
+			modify : function() {
+				$.get('${request.contextPath}/event/modify', function(d) {
+					console.info(d);
+				});
+			},
+			me : function() {
+				$.get('${request.contextPath}/event/me', function(d) {
+					console.info(d);
+				});
+			}
+		};
+	})();
+	</script>
 </body>
 </html>
