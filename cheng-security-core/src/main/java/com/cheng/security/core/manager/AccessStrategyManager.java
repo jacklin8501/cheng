@@ -4,7 +4,6 @@
 package com.cheng.security.core.manager;
 
 import static com.cheng.core.utils.EmptyUtils.isNotEmpty;
-import static com.cheng.security.core.utils.AuthenticationUtils.isAnonymousUser;
 import static com.cheng.security.core.utils.RequestUtils.calculateUri;
 
 import java.util.Collection;
@@ -18,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
+import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -40,6 +41,8 @@ public class AccessStrategyManager {
 	
 	@Autowired
 	private ChengProperties cheng;
+	
+	private AuthenticationTrustResolver trustResolver = new AuthenticationTrustResolverImpl();
 	
 	private AccessStrategy defaultPermitAllRequestAccessStrategy;
 	
@@ -81,10 +84,14 @@ public class AccessStrategyManager {
 			return;
 		}
 		
-		if (isAnonymousUser(authentication)) {
+		if (trustResolver.isAnonymous(authentication)) {
 			logger.info(":: AnonymousUser: can not understander the user!");
 			logger.info(":: Refuse access uri {}", uri);
 			throw new InsufficientAuthenticationException("AnonymousUser: can not understander the user!");
+		}
+		
+		if (trustResolver.isRememberMe(authentication)) {
+			logger.info(":: RememberMe user");
 		}
 		
 		if (getAnyRequestAuthenticatedAccessStrategy().canAccess(request)) {
