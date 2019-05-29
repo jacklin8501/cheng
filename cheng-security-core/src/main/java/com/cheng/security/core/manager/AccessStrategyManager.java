@@ -22,7 +22,6 @@ import org.springframework.security.authentication.AuthenticationTrustResolverIm
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Component;
 
 import com.cheng.core.properties.ChengProperties;
@@ -42,9 +41,6 @@ public class AccessStrategyManager {
 	
 	@Autowired
 	private ChengProperties cheng;
-	
-	@Autowired
-	private HttpSessionSecurityContextRepository sessionSecurityContextRepository;
 	
 	private AuthenticationTrustResolver trustResolver = new AuthenticationTrustResolverImpl();
 	
