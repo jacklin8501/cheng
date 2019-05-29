@@ -12,7 +12,10 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/beetlsql?useUnicode=yes&characterEncoding=UTF-8
     username: root
     data-password: "000000"
-    
+logging:
+  level:
+    org.springframework.web: debug
+            
 beetlsql:
   enabled: false
   sqlPath: /sql
