@@ -4,6 +4,8 @@ server:
 spring:
   session:
     store-type: none
+    timeout:
+      seconds: 30
       
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
