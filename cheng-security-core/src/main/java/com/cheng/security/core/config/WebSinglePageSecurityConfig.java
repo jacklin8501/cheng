@@ -20,7 +20,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.DefaultWebInvocationPrivilegeEvaluator;
 import org.springframework.security.web.access.WebInvocationPrivilegeEvaluator;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
 import com.cheng.core.properties.ChengProperties;
 import com.cheng.security.core.config.handler.AuthenticationFailureHandlerImpl;
@@ -143,7 +142,7 @@ public class WebSinglePageSecurityConfig extends WebSecurityConfigurerAdapter {
 			.permitAll()
 			;
 		
-		http.addFilterBefore(filterSecurityInterceptor(), FilterSecurityInterceptor.class);
+		//http.addFilterBefore(filterSecurityInterceptor(), FilterSecurityInterceptor.class);
 	}
 
 	@Override
