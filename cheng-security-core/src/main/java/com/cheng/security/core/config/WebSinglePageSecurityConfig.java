@@ -20,13 +20,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.DefaultWebInvocationPrivilegeEvaluator;
 import org.springframework.security.web.access.WebInvocationPrivilegeEvaluator;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
 import com.cheng.core.properties.ChengProperties;
 import com.cheng.security.core.config.handler.AuthenticationFailureHandlerImpl;
 import com.cheng.security.core.config.handler.AuthenticationSuccessHandlerImpl;
 import com.cheng.security.core.config.handler.LogoutSuccessHandlerImpl;
 import com.cheng.security.core.config.manager.DefaultAccessDecisionManager;
-import com.cheng.security.core.filterinterceptor.DefaultFilterSecurityInterceptor;
 import com.cheng.security.core.manager.AccessStrategyManager;
 import com.cheng.security.core.metadatasource.CustomerSecurityMetadataSourceProvider;
 import com.cheng.security.core.metadatasource.impl.DefaultFilterInvocationSecurityMetadataSourceImpl;
@@ -77,8 +77,8 @@ public class WebSinglePageSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	@Bean
-	public DefaultFilterSecurityInterceptor filterSecurityInterceptor() throws Exception {
-		DefaultFilterSecurityInterceptor fs = new DefaultFilterSecurityInterceptor();
+	public FilterSecurityInterceptor filterSecurityInterceptor() throws Exception {
+		FilterSecurityInterceptor fs = new FilterSecurityInterceptor();
 		if (isNotEmpty(defaultAccessDecisionManagerImpl)) {
 			fs.setAccessDecisionManager(defaultAccessDecisionManagerImpl);
 			fs.setSecurityMetadataSource(filterInvocationSecurityMetadataSource());
