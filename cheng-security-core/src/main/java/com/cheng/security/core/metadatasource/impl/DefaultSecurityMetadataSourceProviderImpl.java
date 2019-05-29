@@ -7,25 +7,18 @@ import static com.cheng.security.core.utils.RequestUtils.calculateUri;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
-import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.web.FilterInvocation;
 
 import com.cheng.core.properties.ChengProperties;
 import com.cheng.security.core.manager.AccessStrategyManager;
 import com.cheng.security.core.metadatasource.CustomerSecurityMetadataSourceProvider;
-import com.cheng.security.core.pojo.PermissionSec;
-import com.cheng.security.core.pojo.RoleSec;
 
 /**
  * @author jack.lin
@@ -35,27 +28,10 @@ public class DefaultSecurityMetadataSourceProviderImpl implements CustomerSecuri
 	
 	final Logger logger = LoggerFactory.getLogger(getClass());
 	
-	private static Map<PermissionSec, RoleSec> resource;
 	
 	private ChengProperties cheng;
 	private AccessStrategyManager accessStrategyManager;
-	private SessionRegistry sessionRegistry;
 	
-	@PostConstruct
-	@Override
-	public void reflushMetaDataSource() {
-		resource = new HashMap<>();
-		List<Object> principals = sessionRegistry.getAllPrincipals();
-		for (Object object : principals) {
-			logger.info(":: Principal {}", object.getClass().getName());
-		}
-	}
-	
-	@Override
-	public void setSessionRegistry(SessionRegistry sessionRegistry) {
-		this.sessionRegistry = sessionRegistry;
-	}
-
 	@Override
 	public Collection<ConfigAttribute> getAttributes(Object arg0) throws IllegalArgumentException {
 		

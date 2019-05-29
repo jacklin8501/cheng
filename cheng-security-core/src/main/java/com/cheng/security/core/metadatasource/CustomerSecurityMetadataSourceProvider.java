@@ -4,7 +4,6 @@
 package com.cheng.security.core.metadatasource;
 
 import org.springframework.security.access.SecurityMetadataSource;
-import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.util.AntPathMatcher;
 
 /**
@@ -16,8 +15,4 @@ public interface CustomerSecurityMetadataSourceProvider extends SecurityMetadata
 	default AntPathMatcher getPathMatcher() {
 		return new AntPathMatcher();
 	}
-	
-	void reflushMetaDataSource();
-	
-	void setSessionRegistry(SessionRegistry sessionRegistry);
 }

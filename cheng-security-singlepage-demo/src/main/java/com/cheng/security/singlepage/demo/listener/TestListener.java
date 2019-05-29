@@ -30,7 +30,6 @@ public class TestListener implements ApplicationListener<TestListenerEvent> {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		logger.info(":: {}接收到事件 : [{}]", auth.getName(), event.getSource());
 		logger.info(":: class name {}", event.getClass());
-		defaultSecurityMetadataSourceProviderImpl.reflushMetaDataSource();
 	}
 
 }
