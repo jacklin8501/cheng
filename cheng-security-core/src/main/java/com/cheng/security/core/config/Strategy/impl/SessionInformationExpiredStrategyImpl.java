@@ -3,6 +3,7 @@
  */
 package com.cheng.security.core.config.Strategy.impl;
 
+import static com.cheng.core.utils.EmptyUtils.isNotEmpty;
 import static com.cheng.security.core.utils.RequestUtils.isAjaxRequest;
 
 import java.io.IOException;
@@ -45,7 +46,11 @@ public class SessionInformationExpiredStrategyImpl implements SessionInformation
 				writer.write("Session过期!");
 			}
 		} else {
-			redirectStrategy.sendRedirect(request, response, cheng.getSecurity().getForm().getLoginPage());
+			String redirectUrl = cheng.getSecurity().getForm().getLoginPage();
+			if (isNotEmpty(cheng.getSecurity().getSession().getExpiredUrl())) {
+				redirectUrl = cheng.getSecurity().getSession().getExpiredUrl();
+			}
+			redirectStrategy.sendRedirect(request, response, redirectUrl);
 		}
 	}
 

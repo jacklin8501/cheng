@@ -3,6 +3,7 @@
  */
 package com.cheng.security.core.config.Strategy.impl;
 
+import static com.cheng.core.utils.EmptyUtils.isNotEmpty;
 import static com.cheng.security.core.utils.RequestUtils.isAjaxRequest;
 
 import java.io.IOException;
@@ -43,7 +44,11 @@ public class InvalidSessionStrategyImpl implements InvalidSessionStrategy {
 				writer.write("Session 无效!");
 			}
 		} else {
-			redirectStrategy.sendRedirect(request, response, cheng.getSecurity().getForm().getLoginPage());
+			String redirectUrl = cheng.getSecurity().getForm().getLoginPage();
+			if (isNotEmpty(cheng.getSecurity().getSession().getInvalidSessionUrl())) {
+				redirectUrl = cheng.getSecurity().getSession().getInvalidSessionUrl();
+			}
+			redirectStrategy.sendRedirect(request, response, redirectUrl);
 		}
 	}
 

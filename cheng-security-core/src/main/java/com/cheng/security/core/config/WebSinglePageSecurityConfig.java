@@ -92,20 +92,20 @@ public class WebSinglePageSecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 			.filterSecurityInterceptorOncePerRequest(true)
 			.antMatchers(PermitAllHolder.getPermitAllExpression()).permitAll()
-			.anyRequest().authenticated()
-			.and()
-			.rememberMe().disable()
+			.anyRequest().authenticated();
+		
+		http
+			.rememberMe().disable();
+		
+		http
 			.sessionManagement()
-			//.invalidSessionUrl(cheng.getSecurity().getSession().getInvalidSessionUrl())
 			.invalidSessionStrategy(new InvalidSessionStrategyImpl())
 			.maximumSessions(cheng.getSecurity().getSession().getMaximumSessions())
 			.maxSessionsPreventsLogin(cheng.getSecurity().getSession().getMaxSessionsPreventsLogin())
-			//.expiredUrl(cheng.getSecurity().getSession().getExpiredUrl())
 			.expiredSessionStrategy(new SessionInformationExpiredStrategyImpl())
-			.sessionRegistry(sessionRegistry())
-			.and()
-			
-			.and()
+			.sessionRegistry(sessionRegistry());
+		
+		http
 			.formLogin()
 			.loginPage(cheng.getSecurity().getForm().getLoginPage())
 			.loginProcessingUrl(cheng.getSecurity().getForm().getLoginProcessingUrl())
@@ -113,7 +113,6 @@ public class WebSinglePageSecurityConfig extends WebSecurityConfigurerAdapter {
 			.failureHandler(new AuthenticationFailureHandlerImpl())
 			.permitAll()
 			.and()
-			
 			.logout()
 			.logoutSuccessHandler(new LogoutSuccessHandlerImpl())
 			.permitAll()
