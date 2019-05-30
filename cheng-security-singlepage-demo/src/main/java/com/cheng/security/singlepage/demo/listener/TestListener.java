@@ -17,12 +17,12 @@ import com.cheng.security.core.metadatasource.CustomerSecurityMetadataSourceProv
  * @author jack.lin
  *
  */
-@Component
+//@Component
 public class TestListener implements ApplicationListener<TestListenerEvent> {
 
 	final Logger logger = LoggerFactory.getLogger(getClass());
 	
-	@Autowired
+	//@Autowired
 	CustomerSecurityMetadataSourceProvider defaultSecurityMetadataSourceProviderImpl;
 	
 	@Override

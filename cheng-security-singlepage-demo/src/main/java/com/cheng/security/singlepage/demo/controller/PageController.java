@@ -57,4 +57,9 @@ public class PageController {
 	public String me() {
 		return "me.html";
 	}
+	
+	@GetMapping("/pre_login")
+	public String prelogin() {
+		return "prelogin.html";
+	}
 }

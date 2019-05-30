@@ -21,15 +21,14 @@ import org.springframework.security.web.access.intercept.FilterInvocationSecurit
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
 import com.cheng.core.properties.ChengProperties;
+import com.cheng.security.core.config.Strategy.impl.InvalidSessionStrategyImpl;
+import com.cheng.security.core.config.Strategy.impl.SessionInformationExpiredStrategyImpl;
 import com.cheng.security.core.config.handler.AuthenticationFailureHandlerImpl;
 import com.cheng.security.core.config.handler.AuthenticationSuccessHandlerImpl;
 import com.cheng.security.core.config.handler.LogoutSuccessHandlerImpl;
 import com.cheng.security.core.config.manager.DefaultAccessDecisionManager;
 import com.cheng.security.core.holder.PermitAllHolder;
-import com.cheng.security.core.manager.AccessStrategyManager;
-import com.cheng.security.core.metadatasource.CustomerSecurityMetadataSourceProvider;
 import com.cheng.security.core.metadatasource.impl.DefaultFilterInvocationSecurityMetadataSourceImpl;
-import com.cheng.security.core.metadatasource.impl.DefaultSecurityMetadataSourceProviderImpl;
 
 /**
  * @author jack.lin
@@ -37,9 +36,6 @@ import com.cheng.security.core.metadatasource.impl.DefaultSecurityMetadataSource
  */
 public class WebSinglePageSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private AccessStrategyManager accessStrategyManager;
-	
 	@Autowired
 	private DefaultAccessDecisionManager defaultAccessDecisionManagerImpl;
 	
@@ -59,19 +55,11 @@ public class WebSinglePageSecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 	
-	@ConditionalOnMissingBean(CustomerSecurityMetadataSourceProvider.class)
-	@Bean
-	public CustomerSecurityMetadataSourceProvider customerSecurityMetadataSourceProvider() {
-		DefaultSecurityMetadataSourceProviderImpl impl = new DefaultSecurityMetadataSourceProviderImpl();
-		impl.setAccessStrategyManager(accessStrategyManager);
-		impl.setChengProperties(cheng);
-		return impl;
-	}
 	
+	@ConditionalOnMissingBean(FilterInvocationSecurityMetadataSource.class)
 	@Bean
 	public FilterInvocationSecurityMetadataSource filterInvocationSecurityMetadataSource() {
 		DefaultFilterInvocationSecurityMetadataSourceImpl fss = new DefaultFilterInvocationSecurityMetadataSourceImpl();
-		fss.setSecurityMetadataSourceProvider(customerSecurityMetadataSourceProvider());
 		return fss;
 	}
 	
@@ -108,11 +96,12 @@ public class WebSinglePageSecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 			.rememberMe().disable()
 			.sessionManagement()
-			.invalidSessionUrl(cheng.getSecurity().getSession().getInvalidSessionUrl())
-			//.invalidSessionStrategy(new InvalidSessionStrategyImpl())
+			//.invalidSessionUrl(cheng.getSecurity().getSession().getInvalidSessionUrl())
+			.invalidSessionStrategy(new InvalidSessionStrategyImpl())
 			.maximumSessions(cheng.getSecurity().getSession().getMaximumSessions())
 			.maxSessionsPreventsLogin(cheng.getSecurity().getSession().getMaxSessionsPreventsLogin())
-			.expiredUrl(cheng.getSecurity().getSession().getExpiredUrl())
+			//.expiredUrl(cheng.getSecurity().getSession().getExpiredUrl())
+			.expiredSessionStrategy(new SessionInformationExpiredStrategyImpl())
 			.sessionRegistry(sessionRegistry())
 			.and()
 			

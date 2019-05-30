@@ -7,13 +7,13 @@
 <body>
 	<h1>Index</h1>
 	@if(urlIf('/index', 'GET')) {
-	<h2>Index permit</h2>
+	<h4>Index permit</h4>
 	@}
 	@if(urlIf('/user', 'GET')) {
-	<h2>User permit</h2>
+	<h4>User permit</h4>
 	@}
 	@if(urlIf('/me', 'GET')) {
-	<h2>Me permit</h2>
+	<h4>Me permit</h4>
 	@}
 	
 	<a href="#" onclick="IndexModel.publish()">publish</a>

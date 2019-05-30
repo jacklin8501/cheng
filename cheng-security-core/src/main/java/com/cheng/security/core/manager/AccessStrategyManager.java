@@ -14,17 +14,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
-import org.springframework.security.authentication.AuthenticationTrustResolver;
-import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import com.cheng.core.properties.ChengProperties;
 import com.cheng.security.core.config.Strategy.AccessStrategy;
 import com.cheng.security.core.config.Strategy.impl.AnyRequestAuthenticatedAccessStrategyImpl;
 import com.cheng.security.core.config.Strategy.impl.DefaultPermitAllRequestAccessStrategyImpl;
@@ -39,10 +35,10 @@ public class AccessStrategyManager {
 
 	final Logger logger = LoggerFactory.getLogger(getClass());
 	
-	@Autowired
+	/*@Autowired
 	private ChengProperties cheng;
 	
-	private AuthenticationTrustResolver trustResolver = new AuthenticationTrustResolverImpl();
+	private AuthenticationTrustResolver trustResolver = new AuthenticationTrustResolverImpl();*/
 	
 	private AccessStrategy defaultPermitAllRequestAccessStrategy;
 	
@@ -97,6 +93,7 @@ public class AccessStrategyManager {
 		if (getAnyRequestAuthenticatedAccessStrategy().canAccess(request)) {
 			return;
 		}*/
+		
 		
 		if (isNotEmpty(configAttributes)) {
 			Iterator<ConfigAttribute> iterator = configAttributes.iterator();

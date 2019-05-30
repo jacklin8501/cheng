@@ -35,6 +35,7 @@ public class InvalidSessionStrategyImpl implements InvalidSessionStrategy {
 	@Override
 	public void onInvalidSessionDetected(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
+		request.getSession();
 		if (isAjaxRequest(request)) {
 			response.setCharacterEncoding("UTF-8");
 			response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);

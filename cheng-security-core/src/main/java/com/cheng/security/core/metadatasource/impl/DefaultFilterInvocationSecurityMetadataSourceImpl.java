@@ -3,14 +3,19 @@
  */
 package com.cheng.security.core.metadatasource.impl;
 
+import static com.cheng.security.core.utils.RequestUtils.calculateUri;
+
+import java.util.ArrayList;
 import java.util.Collection;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.access.SecurityConfig;
+import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
-
-import com.cheng.security.core.metadatasource.CustomerSecurityMetadataSourceProvider;
 
 /**
  * @author jack.lin
@@ -20,14 +25,22 @@ public class DefaultFilterInvocationSecurityMetadataSourceImpl implements Filter
 
 	final Logger logger = LoggerFactory.getLogger(getClass());
 	
-	private CustomerSecurityMetadataSourceProvider securityMetadataSourceProvider;
-	
 	/**
 	 * 根据请求，加载资源一般是角色
 	 */
 	@Override
 	public Collection<ConfigAttribute> getAttributes(Object arg) throws IllegalArgumentException {
-		return securityMetadataSourceProvider.getAttributes(arg);
+		FilterInvocation fi = (FilterInvocation) arg;
+		HttpServletRequest request = fi.getRequest();
+		
+		String uri = calculateUri(request);
+		String method = request.getMethod().toUpperCase();
+		logger.info(":: getAttributes by {}:{} ", method, uri);
+		
+		Collection<ConfigAttribute> cfas = new ArrayList<>();
+		String attr = method.toUpperCase() + ":" + uri;
+		cfas.add(new SecurityConfig(attr));
+		return cfas;
 	}
 
 	/**
@@ -35,17 +48,12 @@ public class DefaultFilterInvocationSecurityMetadataSourceImpl implements Filter
 	 */
 	@Override
 	public Collection<ConfigAttribute> getAllConfigAttributes() {
-		return securityMetadataSourceProvider.getAllConfigAttributes();
+		return null;
 	}
 
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return securityMetadataSourceProvider.supports(clazz);
+		return FilterInvocation.class.isAssignableFrom(clazz);
 	}
-
-	public void setSecurityMetadataSourceProvider(CustomerSecurityMetadataSourceProvider securityMetadataSourceProvider) {
-		this.securityMetadataSourceProvider = securityMetadataSourceProvider;
-	}
-
 }

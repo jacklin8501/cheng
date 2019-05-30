@@ -12,9 +12,9 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/beetlsql?useUnicode=yes&characterEncoding=UTF-8
     username: root
     data-password: "000000"
-logging:
-  level:
-    org.springframework.security.web.context: debug
+#logging:
+#  level:
+#    org.springframework.security.web.context: debug
             
 beetlsql:
   enabled: false
@@ -55,6 +55,7 @@ cheng:
       invalid-session-url: /session/invalid
     permit-all:
     - /event/**
+    - /pre_login
   web:
     ajax-request-key: "X-Requested-With"
     ajax-request-value: "XMLHttpRequest"

@@ -16,8 +16,6 @@ import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 
-import com.cheng.core.properties.ChengProperties;
-import com.cheng.security.core.manager.AccessStrategyManager;
 import com.cheng.security.core.metadatasource.CustomerSecurityMetadataSourceProvider;
 
 /**
@@ -29,8 +27,8 @@ public class DefaultSecurityMetadataSourceProviderImpl implements CustomerSecuri
 	final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	
-	private ChengProperties cheng;
-	private AccessStrategyManager accessStrategyManager;
+	/*private ChengProperties cheng;
+	private AccessStrategyManager accessStrategyManager;*/
 	
 	@Override
 	public Collection<ConfigAttribute> getAttributes(Object arg0) throws IllegalArgumentException {
@@ -40,11 +38,11 @@ public class DefaultSecurityMetadataSourceProviderImpl implements CustomerSecuri
 		
 		String uri = calculateUri(request);
 		String method = request.getMethod().toUpperCase();
-		logger.info(":: set ConfigAttribute {}:{} ", method, uri);
+		logger.info(":: getAttributes by {}:{} ", method, uri);
 		
 		Collection<ConfigAttribute> cfas = new ArrayList<>();
 		
-		if (cheng.getSecurity().getEnabledDefaultPermitAll()) {
+		/*if (cheng.getSecurity().getEnabledDefaultPermitAll()) {
 			boolean isDefaultPermitAll = accessStrategyManager.getDefaultPermitAllRequestAccessStrategy().canAccess(request);
 			if (isDefaultPermitAll) {
 				logger.info(":: Access PermitAll");
@@ -56,7 +54,7 @@ public class DefaultSecurityMetadataSourceProviderImpl implements CustomerSecuri
 		if (isPermitAll) {
 			logger.info(":: Access PermitAll");
 			cfas.add(new SecurityConfig("PERMIT_ALL"));
-		}
+		}*/
 		
 		String attr = method.toUpperCase() + ":" + uri;
 		cfas.add(new SecurityConfig(attr));
@@ -75,12 +73,12 @@ public class DefaultSecurityMetadataSourceProviderImpl implements CustomerSecuri
 		return FilterInvocation.class.isAssignableFrom(arg0);
 	}
 
-	public void setAccessStrategyManager(AccessStrategyManager accessStrategyManager) {
+	/*public void setAccessStrategyManager(AccessStrategyManager accessStrategyManager) {
 		this.accessStrategyManager = accessStrategyManager;
 	}
 
 	public void setChengProperties(ChengProperties cheng) {
 		this.cheng = cheng;
-	}
+	}*/
 	
 }
