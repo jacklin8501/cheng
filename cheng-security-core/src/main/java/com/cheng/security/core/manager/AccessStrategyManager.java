@@ -75,7 +75,7 @@ public class AccessStrategyManager {
 		String uri = calculateUri(request);
 		logger.info(":: Pre-access uri {}", uri);
 		
-		if (cheng.getSecurity().getEnabledDefaultPermitAll() 
+		/*if (cheng.getSecurity().getEnabledDefaultPermitAll() 
 				&& getDefaultPermitAllRequestAccessStrategy().canAccess(request)) {
 			return;
 		}
@@ -96,7 +96,7 @@ public class AccessStrategyManager {
 		
 		if (getAnyRequestAuthenticatedAccessStrategy().canAccess(request)) {
 			return;
-		}
+		}*/
 		
 		if (isNotEmpty(configAttributes)) {
 			Iterator<ConfigAttribute> iterator = configAttributes.iterator();

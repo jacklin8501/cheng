@@ -3,8 +3,6 @@
  */
 package com.cheng.security.core.config;
 
-import static com.cheng.core.utils.EmptyUtils.isNotEmpty;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -27,6 +25,7 @@ import com.cheng.security.core.config.handler.AuthenticationFailureHandlerImpl;
 import com.cheng.security.core.config.handler.AuthenticationSuccessHandlerImpl;
 import com.cheng.security.core.config.handler.LogoutSuccessHandlerImpl;
 import com.cheng.security.core.config.manager.DefaultAccessDecisionManager;
+import com.cheng.security.core.holder.PermitAllHolder;
 import com.cheng.security.core.manager.AccessStrategyManager;
 import com.cheng.security.core.metadatasource.CustomerSecurityMetadataSourceProvider;
 import com.cheng.security.core.metadatasource.impl.DefaultFilterInvocationSecurityMetadataSourceImpl;
@@ -79,10 +78,8 @@ public class WebSinglePageSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public FilterSecurityInterceptor filterSecurityInterceptor() throws Exception {
 		FilterSecurityInterceptor fs = new FilterSecurityInterceptor();
-		if (isNotEmpty(defaultAccessDecisionManagerImpl)) {
-			fs.setAccessDecisionManager(defaultAccessDecisionManagerImpl);
-			fs.setSecurityMetadataSource(filterInvocationSecurityMetadataSource());
-		}
+		fs.setAccessDecisionManager(defaultAccessDecisionManagerImpl);
+		fs.setSecurityMetadataSource(filterInvocationSecurityMetadataSource());
 		return fs;
 	}
 	
@@ -102,19 +99,11 @@ public class WebSinglePageSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 			//.addFilterAfter(new SessionFilter(sessionRegistry()), ConcurrentSessionFilter.class);
-		/*if (null != customerAccessDecisionManager) {
-			http
-				.authorizeRequests().accessDecisionManager(customerAccessDecisionManager)
-				.anyRequest().authenticated();
-		}*/
 		
 		http
 			.authorizeRequests()
 			.filterSecurityInterceptorOncePerRequest(true)
-			.accessDecisionManager(defaultAccessDecisionManagerImpl)
-			//.antMatchers(cheng.getSecurity().getForm().getLoginPage()
-					//, "/**/*.js", "/**/*.html", "/**/*.css"
-					//, "/**/*.png", "/**/*.jpg", "/**/*.ico").permitAll()
+			.antMatchers(PermitAllHolder.getPermitAllExpression()).permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.rememberMe().disable()

@@ -6,6 +6,9 @@ package com.cheng.security.core.config.Strategy.impl;
 import static com.cheng.core.utils.EmptyUtils.isNotEmpty;
 import static com.cheng.security.core.utils.RequestUtils.calculateUri;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
@@ -93,7 +96,36 @@ public class DefaultPermitAllRequestAccessStrategyImpl implements AccessStrategy
 			logger.info(":: can access uri {}", uri);
 			return true;
 		}
+		
+		if (StringUtils.endsWithIgnoreCase(uri, ".jsp")) {
+			logger.info(":: can access uri {}", uri);
+			return true;
+		}
+		
+		if (StringUtils.endsWithIgnoreCase(uri, ".btl")) {
+			logger.info(":: can access uri {}", uri);
+			return true;
+		}
 		return false;
+	}
+
+	public List<String> getDefaultPermitAll() {
+		return Arrays.asList(
+				getChengProperties().getSecurity().getForm().getLoginPage(),
+				getChengProperties().getSecurity().getForm().getLoginProcessingUrl(),
+				getChengProperties().getSecurity().getForm().getLogoutProccessUrl(),
+				getChengProperties().getSecurity().getSession().getInvalidSessionUrl(),
+				getChengProperties().getSecurity().getSession().getExpiredUrl(),
+				"/error/**",
+				"/**/*.js",
+				"/**/*.css",
+				"/**/*.html",
+				"/**/*.jsp",
+				"/**/*.btl",
+				"/**/*.ico",
+				"/**/*.jpg",
+				"/**/*.png"
+				);
 	}
 
 }
