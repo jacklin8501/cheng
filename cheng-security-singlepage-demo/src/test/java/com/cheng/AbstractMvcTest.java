@@ -3,6 +3,8 @@
  */
 package com.cheng;
 
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;

@@ -3,18 +3,17 @@
  */
 package com.cheng.security.core.config;
 
+import static com.cheng.core.utils.EmptyUtils.isEmpty;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.DefaultWebInvocationPrivilegeEvaluator;
 import org.springframework.security.web.access.WebInvocationPrivilegeEvaluator;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
@@ -26,9 +25,7 @@ import com.cheng.security.core.config.Strategy.impl.SessionInformationExpiredStr
 import com.cheng.security.core.config.handler.AuthenticationFailureHandlerImpl;
 import com.cheng.security.core.config.handler.AuthenticationSuccessHandlerImpl;
 import com.cheng.security.core.config.handler.LogoutSuccessHandlerImpl;
-import com.cheng.security.core.config.manager.DefaultAccessDecisionManager;
 import com.cheng.security.core.holder.PermitAllHolder;
-import com.cheng.security.core.metadatasource.impl.DefaultFilterInvocationSecurityMetadataSourceImpl;
 
 /**
  * @author jack.lin
@@ -37,49 +34,47 @@ import com.cheng.security.core.metadatasource.impl.DefaultFilterInvocationSecuri
 public class WebSinglePageSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private DefaultAccessDecisionManager defaultAccessDecisionManagerImpl;
-	
-	@Autowired
 	private UserDetailsService userDetailsService;
 	
 	@Autowired
 	private ChengProperties cheng;
-
-	@Bean
-	public SessionRegistry sessionRegistry() {
-		return new SessionRegistryImpl();
-	}
 	
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+	@Autowired
+	private SessionRegistry sessionRegistry;
 	
+	@Autowired
+	private AccessDecisionManager accessDecisionManager;
 	
-	@ConditionalOnMissingBean(FilterInvocationSecurityMetadataSource.class)
-	@Bean
-	public FilterInvocationSecurityMetadataSource filterInvocationSecurityMetadataSource() {
-		DefaultFilterInvocationSecurityMetadataSourceImpl fss = new DefaultFilterInvocationSecurityMetadataSourceImpl();
-		return fss;
-	}
+	@Autowired
+	private FilterInvocationSecurityMetadataSource filterInvocationSecurityMetadataSource;
 	
-	@Bean
-	public FilterSecurityInterceptor filterSecurityInterceptor() throws Exception {
-		FilterSecurityInterceptor fs = new FilterSecurityInterceptor();
-		fs.setAccessDecisionManager(defaultAccessDecisionManagerImpl);
-		fs.setSecurityMetadataSource(filterInvocationSecurityMetadataSource());
+	/**
+	 * 定义FilterSecurityInterceptor
+	 * @return
+	 * @throws Exception
+	 */
+	private FilterSecurityInterceptor fs;
+	private FilterSecurityInterceptor getFilterSecurityInterceptor() throws Exception {
+		if (isEmpty(fs)) {
+			fs = new FilterSecurityInterceptor();
+		}
+		fs.setAccessDecisionManager(accessDecisionManager);
+		fs.setSecurityMetadataSource(filterInvocationSecurityMetadataSource);
 		return fs;
 	}
 	
 	@Bean(name="defaultWebInvocationPrivilegeEvaluator")
 	public WebInvocationPrivilegeEvaluator webInvocationPrivilegeEvaluator() throws Exception {
-		return new DefaultWebInvocationPrivilegeEvaluator(filterSecurityInterceptor());
+		return new DefaultWebInvocationPrivilegeEvaluator(getFilterSecurityInterceptor());
 	}
 	
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.securityInterceptor(filterSecurityInterceptor());
+		//设置filterSecurityInterceptor
+		web.securityInterceptor(getFilterSecurityInterceptor());
+		
 		web.privilegeEvaluator(webInvocationPrivilegeEvaluator());
+		
 		//web.ignoring().antMatchers("/**/*.js", "/**/*.html", "/**/*.css");
 	}
 
@@ -103,7 +98,7 @@ public class WebSinglePageSecurityConfig extends WebSecurityConfigurerAdapter {
 			.maximumSessions(cheng.getSecurity().getSession().getMaximumSessions())
 			.maxSessionsPreventsLogin(cheng.getSecurity().getSession().getMaxSessionsPreventsLogin())
 			.expiredSessionStrategy(new SessionInformationExpiredStrategyImpl())
-			.sessionRegistry(sessionRegistry());
+			.sessionRegistry(sessionRegistry);
 		
 		http
 			.formLogin()
@@ -126,5 +121,4 @@ public class WebSinglePageSecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(userDetailsService);
 	}
 
-	
 }
