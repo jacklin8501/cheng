@@ -26,7 +26,6 @@
 		<cheng.admin.starter.version>1.0.1</cheng.admin.starter.version>
 		<cheng.beetl.security.version>1.0.1</cheng.beetl.security.version>
 		<cheng.btlusermrg.starter.version>1.0.1</cheng.btlusermrg.starter.version>
-		<cheng.web.starter.version>1.0.1</cheng.web.starter.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -102,12 +101,6 @@
 				<groupId>com.cheng</groupId>
 				<artifactId>cheng-btlusermrg-starter</artifactId>
 				<version>${cheng.btlusermrg.starter.version}</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>com.cheng</groupId>
-				<artifactId>cheng-web-starter</artifactId>
-				<version>${cheng.web.starter.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

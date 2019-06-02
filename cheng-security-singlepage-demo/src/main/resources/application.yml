@@ -9,7 +9,9 @@ spring:
   profiles:
     include:
     - usermrg
-    
+  messages:
+    encoding: UTF-8
+    basename: messages/messages
 #  datasource:
 #    driver-class-name: com.mysql.jdbc.Driver
 #    url: jdbc:mysql://127.0.0.1:3306/beetlsql?useUnicode=yes&characterEncoding=UTF-8
@@ -66,6 +68,7 @@ cheng:
     permit-all:
     - /event/**
     - /pre_login
+    - /msg/**
   web:
     ajax-request-key: "X-Requested-With"
     ajax-request-value: "XMLHttpRequest"

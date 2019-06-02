@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.cheng.web.exception;
+package com.cheng.core.exception;
 
 /**
  * @author jack.lin
