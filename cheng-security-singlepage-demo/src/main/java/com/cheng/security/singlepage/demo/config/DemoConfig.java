@@ -8,7 +8,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 
+import com.cheng.beetl.config.BeetlSqlConfig;
 import com.cheng.beetl.config.BeetlWebConfig;
+import com.cheng.btlusermrg.config.BtlUserMrgConfig;
 import com.cheng.security.core.config.WebSecurityBeanConfig;
 import com.cheng.security.core.config.WebSinglePageSecurityConfig;
 
@@ -19,7 +21,9 @@ import com.cheng.security.core.config.WebSinglePageSecurityConfig;
 @Import({
 	WebSinglePageSecurityConfig.class, 
 	WebSecurityBeanConfig.class, 
-	BeetlWebConfig.class
+	BeetlWebConfig.class,
+	BeetlSqlConfig.class,
+	BtlUserMrgConfig.class
 })
 @Configuration
 public class DemoConfig {

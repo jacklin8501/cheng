@@ -6,33 +6,43 @@ spring:
     store-type: none
     timeout:
       seconds: 30
-      
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/beetlsql?useUnicode=yes&characterEncoding=UTF-8
-    username: root
-    password: "root"
+  profiles:
+    include:
+    - usermrg
+    
+#  datasource:
+#    driver-class-name: com.mysql.jdbc.Driver
+#    url: jdbc:mysql://127.0.0.1:3306/beetlsql?useUnicode=yes&characterEncoding=UTF-8
+#    username: root
+#    password: "root"
 #logging:
 #  level:
 #    org.springframework.security.web.context: debug
+
+
+
+
+
+
             
 beetlsql:
-  enabled: false
+  enabled: true
   sqlPath: /sql
   nameConversion: org.beetl.sql.core.UnderlinedNameConversion
   dev: true
   daoSuffix: Dao
-  basePackage: com.cheng.beetl.spring.dao
+  basePackage: com.cheng
   dbStyle: org.beetl.sql.core.db.MySqlStyle
-  pojoPackage: com.cheng.beetl.spring.pojo
-
+  pojoPackage: com.cheng
+  ds:
+    usermrg:
+      basePackage: "com.cheng.btlusermrg.dao"
+mutiple:
+  datasource: usermrg
+      
 beetl:
   enabled: true
   
-FN:
-  upper: com.cheng.beetl.function.Upper
-  lower: com.cheng.beetlsql.function.Lower
-
 cheng:
 #安全配置
   security:

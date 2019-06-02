@@ -1,0 +1,47 @@
+package ${package};
+${imports}
+import org.beetl.sql.core.annotatoin.*;
+import com.cheng.beetl.annotation.*;
+
+/*
+* ${comment}
+* gen by jack.lin ${date(),"yyyy-MM-dd"}
+*/
+public class ${className} ${!isEmpty(ext)?"extends "+ext} {
+<% for(attr in attrs){ %>
+    <% if(!isEmpty(attr.comment)){ %>
+    //${attr.comment}
+    <% } %>
+    <% if('version' == attr.colName) { %>
+    @Version
+    <% } %>
+	<% if('create_date' == attr.colName) { %>
+    @UpdateIgnore
+	<% } %>
+	<% if('create_date' == attr.colName || 'last_modified_date' == attr.colName) { %>
+    @NowDefault
+    <% } %>
+    private ${attr.type} ${attr.name} ;
+        
+<% } %>
+<% for(attr in attrs){ %>
+    <% if(!isEmpty(attr.comment)){ %>
+    /**
+    * ${attr.comment!}
+    */
+    <% } %>
+    public ${attr.type} get${getSetUtl(attr.name)}() {
+	    return this.${attr.name};
+    }
+	
+	<% if(!isEmpty(attr.comment)){ %>
+    /**
+    * ${attr.comment!}
+    */
+    <% } %>
+    public void set${getSetUtl(attr.name)}(${attr.type} ${attr.name}) {
+        this.${attr.name} = ${attr.name};
+    }
+    
+<% } %>
+}

@@ -6,7 +6,7 @@ package com.cheng.beetl.gen;
 import org.junit.Test;
 
 import com.cheng.AbstractMvcTest;
-import com.cheng.beetl.manager.BeetlSqlGenderManager;
+import com.cheng.beetl.manager.BeetlSqlGenderManagerOld;
 
 /**
  * @author jack.lin
@@ -23,7 +23,7 @@ public class Gender extends AbstractMvcTest {
 	
 	@Test
 	public void whenGenUserSuccess() throws Exception {
-		BeetlSqlGenderManager
+		BeetlSqlGenderManagerOld
 			.create()
 			.table("iden_user")
 			.daoPackage("com.cheng.beetl.spring.dao")
@@ -33,7 +33,7 @@ public class Gender extends AbstractMvcTest {
 	
 	@Test
 	public void whenGenRoleSuccess() throws Exception {
-		BeetlSqlGenderManager
+		BeetlSqlGenderManagerOld
 		.create()
 		.table("iden_role")
 		.daoPackage("com.cheng.beetl.spring.dao")
@@ -43,7 +43,7 @@ public class Gender extends AbstractMvcTest {
 	
 	@Test
 	public void whenGenUserRoleSuccess() throws Exception {
-		BeetlSqlGenderManager
+		BeetlSqlGenderManagerOld
 		.create()
 		.table("iden_user_role")
 		.daoPackage("com.cheng.beetl.spring.dao")
