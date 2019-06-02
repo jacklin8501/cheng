@@ -37,7 +37,7 @@ public class BeetlSqlPojoGenderBuilder {
 		
 		private DBStyle dbStyle;
 		private NameConversion nameConversion = new UnderlinedNameConversion();
-		private String sqlPath = "\\sql";
+		private String sqlPath = "/sql";
 		
 		private String daoPath;
 		private String pojoPath;

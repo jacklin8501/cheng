@@ -3,8 +3,13 @@
  */
 package com.cheng;
 
+import static com.cheng.core.utils.EmptyUtils.isNotEmpty;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
+import java.util.List;
+
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -36,5 +41,15 @@ public abstract class AbstractSecurityMvcTest {
 	@Before
 	public void setup() {
 		mvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
+	}
+	
+	protected <T> void showMessage(T t) {
+		logger.info(":: {}", ReflectionToStringBuilder.toString(t, ToStringStyle.MULTI_LINE_STYLE));
+	}
+	
+	protected <T> void showMessages(List<T> list) {
+		if (isNotEmpty(list)) {
+			list.forEach(t -> showMessage(t));
+		}
 	}
 }

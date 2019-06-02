@@ -34,6 +34,6 @@ public class GenCodeTest extends AbstractMvcTest {
 
 	@Test
 	public void whenGenSuccess() throws Exception {
-		gender.gen("auth_user");
+		gender.genPojoCodeToConsole("auth_user");
 	}
 }

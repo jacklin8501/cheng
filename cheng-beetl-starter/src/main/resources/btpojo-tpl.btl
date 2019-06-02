@@ -15,12 +15,15 @@ public class ${className} ${!isEmpty(ext)?"extends "+ext} {
     <% if('version' == attr.colName) { %>
     @Version
     <% } %>
-	<% if('create_date' == attr.colName) { %>
+	<% if('create_date' == attr.colName || 'create_by' == attr.colName) { %>
     @UpdateIgnore
 	<% } %>
 	<% if('create_date' == attr.colName || 'last_modified_date' == attr.colName) { %>
     @NowDefault
     <% } %>
+	<% if('create_by' == attr.colName || 'last_modified_by' == attr.colName) { %>
+    @Auditor
+	<% } %>
     private ${attr.type} ${attr.name} ;
         
 <% } %>
