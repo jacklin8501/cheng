@@ -152,6 +152,5 @@
 		<module>cheng-beetl-security-starter</module>
 
 		<module>cheng-btlusermrg-starter</module>
-		<module>cheng-web-starter</module>
 	</modules>
 </project>
