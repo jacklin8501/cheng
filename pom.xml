@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.cheng</groupId>
 	<artifactId>platform</artifactId>
@@ -17,15 +17,6 @@
 		<servlet.api.version>4.0.1</servlet.api.version>
 		<fastjson.version>1.2.57</fastjson.version>
 		<beetl.framework.starter.version>1.1.81.RELEASE</beetl.framework.starter.version>
-
-		<core.version>1.0.1</core.version>
-		<security.core.version>1.0.1</security.core.version>
-		<security.single.version>1.0.1</security.single.version>
-		<jpa.version>1.0.1</jpa.version>
-		<cheng.beetl.starter.version>1.0.1</cheng.beetl.starter.version>
-		<cheng.admin.starter.version>1.0.1</cheng.admin.starter.version>
-		<cheng.beetl.security.version>1.0.1</cheng.beetl.security.version>
-		<cheng.btlusermrg.starter.version>1.0.1</cheng.btlusermrg.starter.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -58,49 +49,43 @@
 			<dependency>
 				<groupId>com.cheng</groupId>
 				<artifactId>cheng-core</artifactId>
-				<version>${core.version}</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.cheng</groupId>
 				<artifactId>cheng-security-core</artifactId>
-				<version>${security.core.version}</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.cheng</groupId>
 				<artifactId>cheng-security-single</artifactId>
-				<version>${security.single.version}</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.cheng</groupId>
-				<artifactId>cheng-jpa</artifactId>
-				<version>${jpa.version}</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>com.cheng</groupId>
 				<artifactId>cheng-beetl-starter</artifactId>
-				<version>${cheng.beetl.starter.version}</version>
+				<version>${project.version}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>com.cheng</groupId>
 				<artifactId>cheng-admin-starter</artifactId>
-				<version>${cheng.admin.starter.version}</version>
+				<version>${project.version}</version>
 			</dependency>
 			
 			<dependency>
 				<groupId>com.cheng</groupId>
 				<artifactId>cheng-beetl-security-starter</artifactId>
-				<version>${cheng.beetl.security.version}</version>
+				<version>${project.version}</version>
 			</dependency>
 			
 			<dependency>
 				<groupId>com.cheng</groupId>
 				<artifactId>cheng-btlusermrg-starter</artifactId>
-				<version>${cheng.btlusermrg.starter.version}</version>
+				<version>${project.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -143,7 +128,6 @@
 	<modules>
 		<module>cheng-security-core</module>
 		<module>cheng-core</module>
-		<module>cheng-jpa</module>
 		<module>cheng-beetl-demo</module>
 		<module>cheng-beetl-spring-demo</module>
 		<module>cheng-security-singlepage-demo</module>
@@ -152,5 +136,6 @@
 		<module>cheng-beetl-security-starter</module>
 
 		<module>cheng-btlusermrg-starter</module>
-	</modules>
+	<module>cheng-mp-demo</module>
+  </modules>
 </project>
