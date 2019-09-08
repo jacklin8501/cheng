@@ -21,9 +21,9 @@ public class UserMapperTest extends AbstractMvcTest {
 
     @Before
     public void whenInserOk() {
-        this.ahUserMapper.insert(AhUser.builder().username("XIAOJ8HUI").password("000000").build());
-        this.ahUserMapper.insert(AhUser.builder().username("XIAOHUIHUI").password("111111").build());
-        this.ahUserMapper.insert(AhUser.builder().username("XIAOHUIDOG").password("222222").build());
+        this.ahUserMapper.insert(AhUser.builder().username("XIAOJ8HUI").password("123").build());
+        this.ahUserMapper.insert(AhUser.builder().username("XIAOHUIHUI").password("123").build());
+        this.ahUserMapper.insert(AhUser.builder().username("XIAOHUIDOG").password("123").build());
     }
 
     @Test
