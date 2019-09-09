@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheng.mp.demo.model.admin.mapper.AhUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheng.mp.demo.model.admin.entity.AhUser">
+        <id column="USERNAME" property="username" />
+        <result column="PASSWORD" property="password" />
+        <collection property="roles" column="username" select="com.cheng.mp.demo.model.admin.mapper.AhRoleMapper.findByUsername" />
+        <collection property="perms" column="username" select="com.cheng.mp.demo.model.admin.mapper.AhPermMapper.findByUsername" />
+    </resultMap>
+
+    <select id="findByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        u.*
+        from AH_USER u
+        <where>
+            u.USERNAME = #{username}
+        </where>
+    </select>
+
+    <select id="findByUsernameLike" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        u.*
+        from AH_USER u
+        <where>
+            <if test="username != null">
+                u.USERNAME like #{username}
+            </if>
+        </where>
+    </select>
+</mapper>

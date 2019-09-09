@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheng.mp.demo.model.admin.mapper.AhRoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheng.mp.demo.model.admin.entity.AhRole">
+        <id column="ROLENAME" property="rolename" />
+        <result column="DESCRIPTION" property="description" />
+    </resultMap>
+
+    <select id="findByUsername" parameterType="java.lang.String" resultType="com.cheng.mp.demo.model.admin.entity.AhRole">
+            select
+            r.*
+            from AH_ROLE r
+            where
+            r.ROLENAME in (
+                select
+                ur.ROLENAME
+                from MID_USER_ROLE ur
+                inner join AH_USER u on u.USERNAME = ur.USERNAME
+                where
+                u.USERNAME = #{username}
+            )
+    </select>
+</mapper>

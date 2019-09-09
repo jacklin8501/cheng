@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cheng.mp.demo.model.admin.mapper.AhPermMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.cheng.mp.demo.model.admin.entity.AhPerm">
+        <id column="PERMNAME" property="permname" />
+        <result column="URI" property="uri" />
+        <result column="DESCRIPTION" property="description" />
+    </resultMap>
+
+    <select id="findByUsername" parameterType="java.lang.String" resultType="com.cheng.mp.demo.model.admin.entity.AhPerm">
+        select
+        p.*
+        from AH_PERM p
+        where p.PERMNAME in (
+            select
+            rp.PERMNAME
+            from MID_ROLE_PERM rp
+            inner join AH_ROLE r on r.ROLENAME = rp.ROLENAME
+            inner join MID_USER_ROLE ur on ur.ROLENAME = r.ROLENAME
+            inner join AH_USER u on u.USERNAME = ur.USERNAME
+            where
+            u.USERNAME = #{username}
+        )
+    </select>
+</mapper>
