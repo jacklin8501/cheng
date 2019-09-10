@@ -44,8 +44,7 @@ public abstract class AbstractBeetlView implements View {
 
         StringTemplateResourceLoader resourceLoader = new StringTemplateResourceLoader();
         Configuration cfg = Configuration.defaultConfiguration();
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType(MediaType.TEXT_HTML_VALUE);
+        
         GroupTemplate gt = new GroupTemplate(resourceLoader, cfg);
         Template t = gt.getTemplate(html);
 
@@ -66,6 +65,8 @@ public abstract class AbstractBeetlView implements View {
     protected void renderHtml(Map<String, ?> model, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         String html = renderText(model, request, response);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType(MediaType.TEXT_HTML_VALUE);
         @Cleanup
         PrintWriter writer = response.getWriter();
         writer.write(html);

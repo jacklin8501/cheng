@@ -20,7 +20,7 @@ public class BeetlViewResolver implements ViewResolver {
             view = new TextHtmlBeetlView();
         }
         view.setViewName(viewName + ".html");
-        view.setWebroot("./resources/");
+        view.setWebroot("./resources");
         return view;
     }
 }
