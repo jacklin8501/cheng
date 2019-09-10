@@ -137,5 +137,6 @@
 
 		<module>cheng-btlusermrg-starter</module>
 	<module>cheng-mp-demo</module>
+    <module>cheng-as-demo</module>
   </modules>
 </project>

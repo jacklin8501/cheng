@@ -1,0 +1,7 @@
+server:
+  port: 80
+  servlet:
+    context-path: "/demo"
+    session:
+      tracking-modes:
+      - cookie
