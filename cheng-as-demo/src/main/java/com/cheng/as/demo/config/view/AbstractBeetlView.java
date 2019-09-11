@@ -24,13 +24,11 @@ import org.springframework.web.servlet.View;
 
 import lombok.Cleanup;
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * AbstractBeetlView
  */
 @Data
-// @Slf4j
 public abstract class AbstractBeetlView implements View {
 
     private final String REDIRCT_KEY = "REDIRECT:";
@@ -52,12 +50,12 @@ public abstract class AbstractBeetlView implements View {
         this.parseWebInfo();
         Resource resource = new ClassPathResource(this.webroot + File.separator + this.viewName);
         @Cleanup
-        BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
+        BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream(), "UTF-8"));
         String html = "";
         while (br.ready()) {
             html += br.readLine() + "\n";
         }
-
+        
         StringTemplateResourceLoader resourceLoader = new StringTemplateResourceLoader();
         Configuration cfg = Configuration.defaultConfiguration();
         
