@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.cheng.as.demo.utils.HttpWebUtils;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
