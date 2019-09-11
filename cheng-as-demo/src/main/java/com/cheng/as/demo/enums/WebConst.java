@@ -9,7 +9,7 @@ public interface WebConst {
 
     public static final String MDL_ME = "/me";
 
-    public static final String URI_A = MDL_ME + "/a";
+    public static final String URI_A = "/a";
 
     public enum WebContextEnum {
         ME_A(MDL_ME, "a");

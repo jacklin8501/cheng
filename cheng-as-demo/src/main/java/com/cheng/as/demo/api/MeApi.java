@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
  * MeApi
  */
 @Controller
-@RequestMapping("/me")
+@RequestMapping(WebConst.MDL_ME)
 @Slf4j
 public class MeApi {
     final ThreadLocal<String> threadLocal = new ThreadLocal<>();
@@ -44,7 +44,7 @@ public class MeApi {
     @GetMapping(value = WebConst.URI_A)
     public String a(HttpServletRequest request) {
         request.setAttribute("page", "a");
-        return WebContextEnum.convert(WebConst.URI_A).getHtml();
+        return WebContextEnum.convert(WebConst.MDL_ME + WebConst.URI_A).getHtml();
     }
 
     @RequiresPermissions("USER:EDIT")
