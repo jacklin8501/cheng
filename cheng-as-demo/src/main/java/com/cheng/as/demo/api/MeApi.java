@@ -1,5 +1,12 @@
 package com.cheng.as.demo.api;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import com.cheng.as.demo.enums.WebConst;
+import com.cheng.as.demo.enums.WebConst.WebContextEnum;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -7,10 +14,13 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.extern.slf4j.Slf4j;
+
 
 /**
  * MeApi
@@ -31,9 +41,10 @@ public class MeApi {
 
     @RequiresPermissions("MAXADMIN:EDIT")
     @ResponseBody
-    @GetMapping("/a")
-    public String a() {
-        return "a";
+    @GetMapping(value = WebConst.URI_A)
+    public String a(HttpServletRequest request) {
+        request.setAttribute("page", "a");
+        return WebContextEnum.convert(WebConst.URI_A).getHtml();
     }
 
     @RequiresPermissions("USER:EDIT")
@@ -63,4 +74,11 @@ public class MeApi {
         }).start();
         return "b";
     }
+
+    @PostMapping(value="/c")
+    @ResponseBody
+    public String c(@RequestBody Map<String, Object> content) {
+        return (String) content.get("page");
+    }
+    
 }

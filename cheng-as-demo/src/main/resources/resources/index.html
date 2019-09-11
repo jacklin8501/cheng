@@ -12,6 +12,7 @@
     <button type="button" onclick="index.meClick()">Me</button>
     <button type="button" onclick="index.aClick()">A</button>
     <button type="button" onclick="index.bClick()">B</button>
+    <button type="button" onclick="index.cClick()">C</button>
     <div id="cont"></div>
     <script src="${ctxPath}/src/lib/jquery-3.3.1.js"></script>
     <script>
@@ -44,6 +45,18 @@
                 $.ajax({
                     url: '${ctxPath}/me/b',
                     type: 'GET',
+                    dataType: 'text',
+                    success: function(html) {
+                        els.$meContent.html(html);
+                    }
+                });
+            },
+            cClick: function() {
+                $.ajax({
+                    url: '${ctxPath}/me/c',
+                    type: 'POST',
+                    contentType: 'application/json;charset=UTF-8',
+                    data: JSON.stringify({page: 'c'}),
                     dataType: 'text',
                     success: function(html) {
                         els.$meContent.html(html);
