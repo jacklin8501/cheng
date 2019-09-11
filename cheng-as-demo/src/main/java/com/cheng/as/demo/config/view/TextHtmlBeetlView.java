@@ -26,5 +26,4 @@ public class TextHtmlBeetlView extends AbstractBeetlView {
         return MediaType.TEXT_HTML_VALUE;
     }
 
-    
 }

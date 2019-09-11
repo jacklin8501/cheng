@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.beetl.core.Configuration;
 import org.beetl.core.GroupTemplate;
 import org.beetl.core.Template;
@@ -23,18 +24,33 @@ import org.springframework.web.servlet.View;
 
 import lombok.Cleanup;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * AbstractBeetlView
  */
 @Data
+// @Slf4j
 public abstract class AbstractBeetlView implements View {
 
+    private final String REDIRCT_KEY = "REDIRECT:";
     private String webroot;
     private String viewName;
 
+    private void parseWebInfo() {
+        this.webroot = StringUtils.trimToEmpty(this.webroot);
+        if (StringUtils.endsWith(this.webroot, "/")) {
+            this.webroot = StringUtils.substringBeforeLast(this.webroot, "/");
+        }
+        this.viewName = StringUtils.trimToEmpty(this.viewName);
+        if (StringUtils.startsWith(this.viewName, "/")) {
+            this.viewName = StringUtils.substringAfter(this.viewName, "/");
+        }
+    }
+
     private String renderText(Map<String, ?> model, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Resource resource = new ClassPathResource(webroot + File.separator + viewName);
+        this.parseWebInfo();
+        Resource resource = new ClassPathResource(this.webroot + File.separator + this.viewName);
         @Cleanup
         BufferedReader br = new BufferedReader(new InputStreamReader(resource.getInputStream()));
         String html = "";
@@ -72,7 +88,7 @@ public abstract class AbstractBeetlView implements View {
         writer.write(html);
     }
 
-    protected void renderJson(Map<String, ?> model, HttpServletRequest request, HttpServletResponse response)
+    protected void renderString(Map<String, ?> model, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         response.setCharacterEncoding("UTF-8");
@@ -82,4 +98,14 @@ public abstract class AbstractBeetlView implements View {
         writer.write(html);
     }
 
+    // protected void redirectIfNeed(Map<String, ?> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    //     log.info(":: view name = {}", this.viewName);
+    //     this.parseWebInfo();
+    //     String requestType = request.getHeader("X-Requested-With");
+    //     if (!StringUtils.equals("XMLHttpRequest", requestType) && StringUtils.startsWithIgnoreCase(this.REDIRCT_KEY, this.viewName)) {
+    //         String cxtPath = request.getContextPath();
+    //         this.viewName = StringUtils.substring(this.viewName, 0, this.REDIRCT_KEY.length());
+    //         response.sendRedirect(cxtPath + File.separator + this.viewName);
+    //     }
+    // }
 }

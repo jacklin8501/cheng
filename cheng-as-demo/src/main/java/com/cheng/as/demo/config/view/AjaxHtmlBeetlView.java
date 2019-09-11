@@ -18,7 +18,7 @@ public class AjaxHtmlBeetlView extends AbstractBeetlView {
     @Override
     public void render(Map<String, ?> model, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-        super.renderJson(model, request, response);
+        super.renderString(model, request, response);
     }
 
     @Override

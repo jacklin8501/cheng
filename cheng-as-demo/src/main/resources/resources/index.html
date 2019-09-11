@@ -9,16 +9,45 @@
 <body>
     <h1>Index</h1>
     <a href="${ctxPath}/logout">登出</a>
-    <a href="#" onclick="index.meClick()">Me</a>
+    <button type="button" onclick="index.meClick()">Me</button>
+    <button type="button" onclick="index.aClick()">A</button>
+    <button type="button" onclick="index.bClick()">B</button>
     <div id="cont"></div>
     <script src="${ctxPath}/src/lib/jquery-3.3.1.js"></script>
     <script>
     var index = (function() {
+        var els = {
+            $meContent: $('#cont')
+        };
         return {
             meClick: function() {
-                $.get('${ctxPath}/me', function(dd) {
-                    console.info(dd);
-                    $('#cont').html(dd);
+                $.ajax({
+                    url: '${ctxPath}/me',
+                    type: 'GET',
+                    dataType: 'text',
+                    success: function(html) {
+                        els.$meContent.html(html);
+                    }
+                });
+            },
+            aClick: function() {
+                $.ajax({
+                    url: '${ctxPath}/me/a',
+                    type: 'GET',
+                    dataType: 'text',
+                    success: function(html) {
+                        els.$meContent.html(html);
+                    }
+                });
+            },
+            bClick: function() {
+                $.ajax({
+                    url: '${ctxPath}/me/b',
+                    type: 'GET',
+                    dataType: 'text',
+                    success: function(html) {
+                        els.$meContent.html(html);
+                    }
                 });
             }
         };
